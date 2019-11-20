@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { WeatherService } from '../../weather.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html'
 })
 export class SearchComponent {
-  // IMPLEMENT ANY INPUT OR OUTPUT YOU MIGHT NEED
+  searchForm = new FormControl('', Validators.required);
 
-  constructor() { }
+  constructor(private weatherService: WeatherService) { }
 
   search() {
-    // TO BE IMPLEMENTED
+    if (!this.searchForm.valid) {
+      return;
+    }
+
+    this.weatherService.searchWeatherForCity(this.searchForm.value).subscribe(res => console.log(res));
   }
 }
