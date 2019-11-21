@@ -5,7 +5,16 @@ export class AppPage {
     return browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+  fillFormAndSubmit(cityName: string) {
+    element(by.css('[name="city"]')).sendKeys(cityName);
+    element(by.css('.btn-primary')).click();
+  }
+
+  getErrorMessage() {
+    return element(by.css('.alert-warning')).getText();
+  }
+
+  getLastAddedCityName() {
+    return element(by.css('table.table tr:last-child td:first-child')).getText();
   }
 }
