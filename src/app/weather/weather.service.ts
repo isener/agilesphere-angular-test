@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { of } from 'rxjs/observable/of';
+import { _throw } from 'rxjs/observable/throw';
 import { _if } from 'rxjs/observable/if';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, takeUntil } from 'rxjs/operators';
+
 import { Weather } from '../model/weather';
+import { BaseComponent } from '../utils';
 
 @Injectable()
-export class WeatherService {
+export class WeatherService extends BaseComponent {
   private url = 'https://api.openweathermap.org/data/2.5/forecast';
   private httpOptions = { observe: 'response' } as any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { super() }
 
   searchWeatherForCity(city: string) {
     const params = {
@@ -23,11 +26,12 @@ export class WeatherService {
 
     return this.http.get(this.url, { params, ...this.httpOptions })
       .pipe(
+        takeUntil(this.componentDestroyed$),
         switchMap((weatherResponse: any) => _if(
           () => weatherResponse.status === 200,
           of(weatherResponse.body as Weather),
-          of({ hede: 'hodo' }))),
-        catchError(error => of({ ...error.error }))
+          _throw({ hede: 'hodo' }))),
+        catchError(error => _throw({ ...error.error }))
       );
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-weather',
@@ -6,11 +6,4 @@ import { Component, OnInit } from '@angular/core';
   <app-search></app-search>
   <app-results></app-results>  `
 })
-export class WeatherContainer {
-
-  constructor() {}
-
-  citySearch() {
-    // TO BE IMPLMENTED
-  }
-}
+export class WeatherContainer { }
