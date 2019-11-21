@@ -14,7 +14,7 @@ export class WeatherService extends BaseComponent {
   private url = 'https://api.openweathermap.org/data/2.5/forecast';
   private httpOptions = { observe: 'response' } as any;
 
-  constructor(private http: HttpClient) { super() }
+  constructor(private http: HttpClient) { super(); }
 
   searchWeatherForCity(city: string) {
     const params = {
@@ -27,11 +27,17 @@ export class WeatherService extends BaseComponent {
     return this.http.get(this.url, { params, ...this.httpOptions })
       .pipe(
         takeUntil(this.componentDestroyed$),
-        switchMap((weatherResponse: any) => _if(
-          () => weatherResponse.status === 200,
-          of(weatherResponse.body as Weather),
-          _throw({ hede: 'hodo' }))),
-        catchError(error => _throw({ ...error.error }))
+        switchMap((weatherResponse: any) =>
+          _if(
+            () => weatherResponse.status === 200,
+            of(weatherResponse.body as Weather),
+            _throw('Something went wrong, please try again later')
+          )),
+        catchError(error =>
+          _if(
+            () => error.status === 404,
+            _throw('City not found'),
+            _throw('Something went wrong, please try again later')))
       );
   }
 

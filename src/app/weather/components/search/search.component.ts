@@ -17,6 +17,7 @@ import { BaseComponent } from '../../../utils';
 export class SearchComponent extends BaseComponent {
   searchForm = new FormControl('', Validators.required);
   shouldShowSpinner$: Observable<boolean>;
+  error: string;
 
   constructor(private weatherService: WeatherService, private store: Store<WeatherState>) {
     super();
@@ -30,6 +31,7 @@ export class SearchComponent extends BaseComponent {
     }
 
     this.store.dispatch(new SetCityFetching());
+    this.error = '';
 
     this.weatherService.searchWeatherForCity(this.searchForm.value)
       .pipe(
@@ -39,7 +41,9 @@ export class SearchComponent extends BaseComponent {
         (res: Weather) => {
           this.store.dispatch(new SetCity(res));
           this.searchForm.setValue('');
-        }
-        , err => { }); // TODO: handle error
+        },
+        err => {
+          this.error = err;
+        });
   }
 }
