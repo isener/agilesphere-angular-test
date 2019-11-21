@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
-import { WeatherService } from '../../weather.service';
-import { Weather } from '../../../model/weather';
-import { SetCity, SetCityFetching, SetCityFinished } from '../../store/actions/weather';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { SetCityStarted } from '../../store/actions/weather';
+import { takeUntil } from 'rxjs/operators';
 import { WeatherState } from '../../store/reducers/weather';
 import { Observable } from 'rxjs/Observable';
 import { BaseComponent } from '../../../utils';
@@ -17,12 +15,13 @@ import { BaseComponent } from '../../../utils';
 export class SearchComponent extends BaseComponent {
   searchForm = new FormControl('', Validators.required);
   shouldShowSpinner$: Observable<boolean>;
-  error: string;
+  error$: Observable<string>;
 
-  constructor(private weatherService: WeatherService, private store: Store<WeatherState>) {
+  constructor(private store: Store<WeatherState>) {
     super();
 
     this.shouldShowSpinner$ = this.store.pipe(takeUntil(this.componentDestroyed$), select('weather'), select('shouldShowSpinner'));
+    this.error$ = this.store.pipe(takeUntil(this.componentDestroyed$), select('weather'), select('error'));
   }
 
   search() {
@@ -30,20 +29,6 @@ export class SearchComponent extends BaseComponent {
       return;
     }
 
-    this.store.dispatch(new SetCityFetching());
-    this.error = '';
-
-    this.weatherService.searchWeatherForCity(this.searchForm.value)
-      .pipe(
-        finalize(() => this.store.dispatch(new SetCityFinished()))
-      )
-      .subscribe(
-        (res: Weather) => {
-          this.store.dispatch(new SetCity(res));
-          this.searchForm.setValue('');
-        },
-        err => {
-          this.error = err;
-        });
+    this.store.dispatch(new SetCityStarted(this.searchForm.value));
   }
 }

@@ -1,10 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-@Component({
-    selector: 'app-base'
-})
-export class BaseComponent implements OnDestroy {
+export abstract class BaseComponent implements OnDestroy {
     componentDestroyed$ = new Subject<void>();
 
     ngOnDestroy() {
