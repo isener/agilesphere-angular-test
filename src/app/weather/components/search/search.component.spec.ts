@@ -3,16 +3,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { SearchComponent } from './search.component';
-
-import Spy = jasmine.Spy;
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, effects } from '../../store';
 
+import { reducers, effects } from '../../store';
 import { WeatherService } from '../../weather.service';
-import { skip } from 'rxjs/operators';
-import { By } from '@angular/platform-browser';
+import { SearchComponent } from './search.component';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -58,17 +54,16 @@ describe('SearchComponent', () => {
     expect(component.cityCtrl.value).toEqual('London');
   });
 
-  it('should give an error with a wrong city name', () => {
-
-    component.cityCtrl.setValue('London');
+  it('should give an error with a wrong city name', done => {
+    component.cityCtrl.setValue('Londland');
     component.search();
-    fixture.detectChanges();
 
-    component.error$.subscribe(res => console.log(res))
-
-    let result = fixture.debugElement.query(By.css('.alert'));
-
-    console.log(result)
-    // expect(errorValue.length > 0).toBeTruthy();
+    component.error$.subscribe(errorText => {
+      if (errorText) {
+        expect(errorText.length > 0).toBeTruthy();
+        done();
+      }
+    });
   });
+
 });

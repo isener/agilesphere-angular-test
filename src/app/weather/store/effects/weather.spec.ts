@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { _throw } from 'rxjs/observable/throw';
 
-describe('PostsEffects', () => {
+describe('WeatherEffects', () => {
     let effects;
     let weatherService;
     let actions: Observable<any>;

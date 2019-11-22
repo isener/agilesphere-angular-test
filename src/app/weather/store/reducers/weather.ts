@@ -14,11 +14,11 @@ export function weatherReducer(state: WeatherState = { cityWeathers: [], shouldS
         }
 
         case WeatherActionTypes.SET_CITY_SUCCESS: {
-            return { ...state, cityWeathers: state.cityWeathers.concat(action.payload), shouldShowSpinner: false };
+            return { ...state, shouldShowSpinner: false, cityWeathers: state.cityWeathers.concat(action.payload) };
         }
 
         case WeatherActionTypes.SET_CITY_FAILED: {
-            return { ...state, error: action.payload, shouldShowSpinner: false };
+            return { ...state, shouldShowSpinner: false, error: action.payload };
         }
 
         default: {
