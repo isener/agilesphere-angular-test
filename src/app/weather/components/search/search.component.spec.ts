@@ -47,20 +47,20 @@ describe('SearchComponent', () => {
   });
 
   it('should validate form with empty input', () => {
-    component.searchForm.setValue('');
+    component.cityCtrl.setValue('');
 
-    expect(component.searchForm.valid).toBeFalsy();
+    expect(component.cityCtrl.valid).toBeFalsy();
   });
 
   it('should fill the form with correct city name', () => {
-    component.searchForm.setValue('London');
+    component.cityCtrl.setValue('London');
 
-    expect(component.searchForm.value).toEqual('London');
+    expect(component.cityCtrl.value).toEqual('London');
   });
 
   it('should give an error with a wrong city name', () => {
 
-    component.searchForm.setValue('London');
+    component.cityCtrl.setValue('London');
     component.search();
     fixture.detectChanges();
 

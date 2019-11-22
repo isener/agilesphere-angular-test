@@ -5,15 +5,18 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { WeatherEffects } from './weather';
 import { WeatherService } from '../../weather.service';
-import { SetCitySuccess, SetCityStarted } from '../actions/weather';
+import { SetCitySuccess, SetCityStarted, SetCityFailed } from '../actions/weather';
 import { Weather } from '../../../model/weather';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { _throw } from 'rxjs/observable/throw';
 
 describe('PostsEffects', () => {
     let effects;
     let weatherService;
     let actions: Observable<any>;
+    const mockSuccessData = { id: 1 };
+    const mockErrorData = 'City not found';
 
 
     beforeEach(() => TestBed.configureTestingModule({
@@ -28,17 +31,15 @@ describe('PostsEffects', () => {
     beforeEach(() => {
         effects = TestBed.get(WeatherEffects);
         weatherService = TestBed.get(WeatherService);
-
-        spyOn(weatherService, 'searchWeatherForCity').and.returnValue(of({ id: 1 }));
     });
 
-    describe('get$', () => {
+    describe('weatherCitySet$', () => {
 
-        it('should return a GET_POSTS_SUCCESS action, on success', () => {
-            const mockResponse = { id: 1 } as Weather;
+        it('should return a SetCitySuccess action, on success', () => {
+            spyOn(weatherService, 'searchWeatherForCity').and.returnValue(of(mockSuccessData));
 
             const action = new SetCityStarted('London');
-            const completion = new SetCitySuccess(mockResponse);
+            const completion = new SetCitySuccess(mockSuccessData as Weather);
 
             actions = hot('--a-', { a: action });
             const expected = cold('--b', { b: completion });
@@ -48,20 +49,18 @@ describe('PostsEffects', () => {
         });
 
 
-        // it('should return a GET_POSTS_FAIL action, on error, after the de-bounce', fakeAsync(function () {
-        //     // const expectedResult = getPostsFail('error');
-        //     // let resultFromEffect = null;
+        it('should return a SetCityFailure action, on fail', () => {
+            spyOn(weatherService, 'searchWeatherForCity').and.returnValue(_throw(mockErrorData));
 
-        //     // postsService.get.and.returnValue(Observable.throw('error'));
-        //     // runner.queue(getPosts());
+            const action = new SetCityStarted('Londland');
+            const completion = new SetCityFailed(mockErrorData);
 
-        //     // postsEffects.posts$.subscribe(result => result = resultFromEffect);
-        //     // tick(399);
-        //     // expect(result).toEqual(null);
-        //     // tick(400);
-        //     // expect(result).toEqual(expectedResult);
+            actions = hot('--a-', { a: action });
+            const expected = cold('--b', { b: completion });
 
-        // }));
+            expect(effects.weatherCitySet$).toBeObservable(expected);
+
+        });
 
     });
 
