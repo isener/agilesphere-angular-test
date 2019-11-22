@@ -1,4 +1,5 @@
 import { AppPage } from './app.po';
+import { protractor } from 'protractor/built/ptor';
 
 describe('angular-weather App', () => {
   let page: AppPage;
@@ -13,12 +14,6 @@ describe('angular-weather App', () => {
     page.fillFormAndSubmit('Londland');
 
     expect(page.getErrorMessage()).toBeTruthy();
-  });
-
-  it('when submitting form, user should be able to see Loading text indicator in table', () => {
-    page.fillFormAndSubmit('London');
-
-    expect(page.getLastAddedCityName()).toEqual('London');
   });
 
   it('when user submitting form with correct city name they should see related data in table', () => {
