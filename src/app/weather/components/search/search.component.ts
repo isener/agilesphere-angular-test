@@ -13,7 +13,7 @@ import { BaseComponent } from '../../../utils';
   templateUrl: './search.component.html'
 })
 export class SearchComponent extends BaseComponent {
-  searchForm = new FormControl('', Validators.required);
+  cityCtrl = new FormControl('', Validators.required);
   shouldShowSpinner$: Observable<boolean>;
   error$: Observable<string>;
 
@@ -25,10 +25,11 @@ export class SearchComponent extends BaseComponent {
   }
 
   search() {
-    if (!this.searchForm.valid) {
+    this.cityCtrl.markAsTouched();
+    if (!this.cityCtrl.valid) {
       return;
     }
 
-    this.store.dispatch(new SetCityStarted(this.searchForm.value));
+    this.store.dispatch(new SetCityStarted(this.cityCtrl.value));
   }
 }
