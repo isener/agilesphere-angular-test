@@ -7,22 +7,22 @@ export interface WeatherState {
     error: string;
 }
 
-export function weatherReducer(state: WeatherState = { cityWeathers: [], shouldShowSpinner: false, error: '' }, action) {
+export function weatherReducer(initialState: WeatherState = { cityWeathers: [], shouldShowSpinner: false, error: '' }, action) {
     switch (action.type) {
         case WeatherActionTypes.SET_CITY_STARTED: {
-            return { ...state, shouldShowSpinner: true, error: '' };
+            return { ...initialState, shouldShowSpinner: true, error: '' };
         }
 
         case WeatherActionTypes.SET_CITY_SUCCESS: {
-            return { ...state, shouldShowSpinner: false, cityWeathers: state.cityWeathers.concat(action.payload) };
+            return { ...initialState, shouldShowSpinner: false, cityWeathers: initialState.cityWeathers.concat(action.payload) };
         }
 
         case WeatherActionTypes.SET_CITY_FAILED: {
-            return { ...state, shouldShowSpinner: false, error: action.payload };
+            return { ...initialState, shouldShowSpinner: false, error: action.payload };
         }
 
         default: {
-            return state;
+            return initialState;
         }
     }
 }
