@@ -12,6 +12,7 @@ import { BaseComponent } from '../utils';
 @Injectable()
 export class WeatherService extends BaseComponent {
   private url = 'https://api.openweathermap.org/data/2.5/forecast';
+  private APPID = '010721642521f31b0fbc8c3831d45951';
   private httpOptions = { observe: 'response' } as any;
 
   constructor(private http: HttpClient) { super(); }
@@ -21,7 +22,7 @@ export class WeatherService extends BaseComponent {
       q: city,
       cnt: '8',
       units: 'metric',
-      APPID: '010721642521f31b0fbc8c3831d45951'
+      APPID: this.APPID
     };
 
     return this.http.get(this.url, { params, ...this.httpOptions })
