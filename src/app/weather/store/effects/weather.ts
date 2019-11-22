@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { WeatherActionTypes } from '../actions/weather';
+import { WeatherActionTypes, SetCitySuccess, SetCityFailed } from '../actions/weather';
 import { WeatherService } from '../../weather.service';
 
 @Injectable()
@@ -15,8 +15,8 @@ export class WeatherEffects {
         ofType(WeatherActionTypes.SET_CITY_STARTED),
         mergeMap((action: any) =>
             this.weatherService.searchWeatherForCity(action.payload).pipe(
-                map(data => ({ type: WeatherActionTypes.SET_CITY_SUCCESS, payload: data })),
-                catchError((error) => of({ type: WeatherActionTypes.SET_CITY_FAILED, payload: error }))
+                map(data => new SetCitySuccess(data)),
+                catchError((error) => of(new SetCityFailed(error)))
             )
         )
     );
