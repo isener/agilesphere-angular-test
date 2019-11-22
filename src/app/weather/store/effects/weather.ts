@@ -21,7 +21,6 @@ export class WeatherEffects {
         )
     );
 
-
     constructor(
         private weatherService: WeatherService,
         private actions$: Actions
