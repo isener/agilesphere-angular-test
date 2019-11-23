@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { takeUntil } from 'rxjs/operators';
 
-import { BaseComponent, PartsOfDay } from '../utils';
+import { BaseComponent } from '../utils';
 import { WeatherState } from './store/reducers/weather';
 import { SetCityStarted } from './store/actions/weather';
 import { Weather } from '../model/weather';

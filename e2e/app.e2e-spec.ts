@@ -13,7 +13,7 @@ describe('angular-weather App', () => {
   it('when user submitting form with empty input they should see error', () => {
     page.fillFormAndSubmit('');
 
-    expect(page.getErrorMessage()).toEqual('Please fill out city');
+    expect(page.getErrorMessage()).toEqual('Please fill out field');
   });
 
   it('when user submitting form with wrong city name they should see error', () => {

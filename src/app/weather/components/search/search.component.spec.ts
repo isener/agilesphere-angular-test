@@ -1,13 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-
-import { reducers, effects } from '../../store';
-import { WeatherService } from '../../weather.service';
 import { SearchComponent } from './search.component';
 
 describe('SearchComponent', () => {
@@ -17,15 +11,9 @@ describe('SearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SearchComponent],
-      providers: [WeatherService],
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        HttpClientModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('weather', reducers),
-        EffectsModule.forRoot([]),
-        EffectsModule.forFeature([effects])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
