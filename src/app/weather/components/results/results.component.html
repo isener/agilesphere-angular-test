@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let cityWeather of cityWeathers$ | async">
+    <tr *ngFor="let cityWeather of cityWeathers">
       <td scope="row">{{cityWeather.city.name}}</td>
       <td scope="row">{{getTemparatureFromWeatherList(cityWeather.list, partsOfDay.MORNING) | number: '1.1-1'}} &deg;</td>
       <td scope="row">{{getTemparatureFromWeatherList(cityWeather.list, partsOfDay.NOON) | number: '1.1-1'}} &deg;</td>
@@ -17,7 +17,7 @@
       <td scope="row">{{getTemparatureFromWeatherList(cityWeather.list, partsOfDay.MIDNIGHT) | number: '1.1-1'}} &deg;</td>
     </tr>
 
-    <tr *ngIf="shouldShowSpinner$ | async">
+    <tr *ngIf="shouldShowSpinner">
       <td scope="row" colspan="100%"><strong>Loading...</strong></td>
     </tr>
   </tbody>

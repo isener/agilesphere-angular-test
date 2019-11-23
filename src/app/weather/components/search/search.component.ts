@@ -1,35 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
 
-import { SetCityStarted } from '../../store/actions/weather';
-import { takeUntil } from 'rxjs/operators';
-import { WeatherState } from '../../store/reducers/weather';
-import { Observable } from 'rxjs/Observable';
-import { BaseComponent } from '../../../utils';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html'
 })
-export class SearchComponent extends BaseComponent {
-  cityCtrl = new FormControl('', Validators.required);
-  shouldShowSpinner$: Observable<boolean>;
-  error$: Observable<string>;
+export class SearchComponent {
+  @Input() error: string;
+  @Output() search = new EventEmitter<string>();
 
-  constructor(private store: Store<WeatherState>) {
-    super();
+  searchCtrl = new FormControl('', Validators.required);
 
-    this.shouldShowSpinner$ = this.store.pipe(takeUntil(this.componentDestroyed$), select('weather'), select('shouldShowSpinner'));
-    this.error$ = this.store.pipe(takeUntil(this.componentDestroyed$), select('weather'), select('error'));
-  }
-
-  search() {
-    this.cityCtrl.markAsTouched();
-    if (!this.cityCtrl.valid) {
+  submit() {
+    this.searchCtrl.markAsTouched();
+    if (!this.searchCtrl.valid) {
       return;
     }
 
-    this.store.dispatch(new SetCityStarted(this.cityCtrl.value));
+    this.search.emit(this.searchCtrl.value);
   }
 }

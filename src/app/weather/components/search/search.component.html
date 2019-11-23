@@ -1,11 +1,12 @@
-<form class="form-inline mb-5" novalidate (ngSubmit)="search()">
+<form class="form-inline mb-5" novalidate (ngSubmit)="submit()">
   <div class="form-group col-8 pl-0">
-    <input class="form-control mt-3 col" [formControl]="cityCtrl" name="city" placeholder="City" type="text">
+    <input class="form-control mt-3 col" [formControl]="searchCtrl" name="city" placeholder="City" type="text">
   </div>
   <button class="btn-search btn btn-primary mt-3 col-4" type="submit">Search</button>
 </form>
 
-<div class="alert alert-warning mb-5" role="alert" *ngIf="(error$| async) && cityCtrl.valid">{{error$ | async}}</div>
-<div class="alert alert-warning mb-5" role="alert" *ngIf="cityCtrl.invalid && (cityCtrl.dirty || cityCtrl.touched) && cityCtrl.hasError('required')">
-  Please fill out city
+<div class="alert alert-warning mb-5" role="alert" *ngIf="error && searchCtrl.valid">{{error}}</div>
+<div class="alert alert-warning mb-5" role="alert"
+  *ngIf="searchCtrl.invalid && (searchCtrl.dirty || searchCtrl.touched) && searchCtrl.hasError('required')">
+  Please fill out field
 </div>

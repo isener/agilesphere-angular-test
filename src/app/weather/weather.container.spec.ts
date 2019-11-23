@@ -9,11 +9,11 @@ describe('WeatherContainer', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WeatherContainer ],
+      declarations: [WeatherContainer],
       imports: [],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -26,5 +26,14 @@ describe('WeatherContainer', () => {
     expect(component).toBeTruthy();
   });
 
-  // PLEASE IMPLEMENT MORE TESTS
+  it('should give an error with a wrong city name', done => {
+    component.onSearch('Londland');
+
+    component.error$.subscribe(errorText => {
+      if (errorText) {
+        expect(errorText.length > 0).toBeTruthy();
+        done();
+      }
+    });
+  });
 });

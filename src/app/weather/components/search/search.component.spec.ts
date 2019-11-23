@@ -43,27 +43,15 @@ describe('SearchComponent', () => {
   });
 
   it('should validate form with empty input', () => {
-    component.cityCtrl.setValue('');
+    component.searchCtrl.setValue('');
 
-    expect(component.cityCtrl.valid).toBeFalsy();
+    expect(component.searchCtrl.valid).toBeFalsy();
   });
 
-  it('should fill the form with correct city name', () => {
-    component.cityCtrl.setValue('London');
+  it('should fill the form with correct value', () => {
+    component.searchCtrl.setValue('London');
 
-    expect(component.cityCtrl.value).toEqual('London');
-  });
-
-  it('should give an error with a wrong city name', done => {
-    component.cityCtrl.setValue('Londland');
-    component.search();
-
-    component.error$.subscribe(errorText => {
-      if (errorText) {
-        expect(errorText.length > 0).toBeTruthy();
-        done();
-      }
-    });
+    expect(component.searchCtrl.value).toEqual('London');
   });
 
 });
