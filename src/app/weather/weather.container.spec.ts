@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+
 import { reducers, effects } from './store';
 import { WeatherContainer } from './weather.container';
 import { WeatherService } from './weather.service';

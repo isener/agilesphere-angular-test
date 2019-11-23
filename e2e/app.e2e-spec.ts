@@ -1,5 +1,4 @@
 import { AppPage } from './app.po';
-import { protractor } from 'protractor/built/ptor';
 
 describe('angular-weather App', () => {
   let page: AppPage;
